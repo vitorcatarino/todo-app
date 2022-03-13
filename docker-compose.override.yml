@@ -1,0 +1,27 @@
+version: '3.4'
+
+services:
+  todowebapp:
+    ports:
+      - 8080:80
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - Services__TodoAPI=http://todoapi/todos/
+    volumes:
+      - ~/.vsdbg:/remote_debugger:rw
+
+  todoapi:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__TodosDb=Server=tododb,1433;Initial Catalog=echo-log;User ID=SA;Password=P@ssw0rd;
+    volumes:
+      - ~/.vsdbg:/remote_debugger:rw
+    deploy:
+      restart_policy:
+        condition: on-failure
+
+  tododb:
+    environment:
+      - SA_PASSWORD=P@ssw0rd
+      - ACCEPT_EULA=Y
+

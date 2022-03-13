@@ -1,0 +1,24 @@
+# Please refer https://aka.ms/HTTPSinContainer on how to setup an https developer certificate for your ASP .NET Core service.
+
+version: '3.4'
+
+services:
+  todowebapp:
+    image: todoapp/todowebapp:compose
+    build:
+      context: TodoWebapp/
+      dockerfile: Dockerfile
+    depends_on:
+      - todoapi
+
+  todoapi:
+    image: todoapp/todoapi:compose
+    build:
+      context: TodoAPI/
+      dockerfile: Dockerfile
+    depends_on:
+      - tododb
+
+  tododb:
+    image: mcr.microsoft.com/mssql/server:2017-latest
+

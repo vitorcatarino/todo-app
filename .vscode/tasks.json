@@ -36,6 +36,63 @@
                 "${workspaceFolder}/TodoWebapp/TodoWebapp.csproj"
             ],
             "problemMatcher": "$msCompile"
+        },
+        {
+            "type": "docker-build",
+            "label": "docker-build: debug",
+            "dependsOn": [
+                "build"
+            ],
+            "dockerBuild": {
+                "tag": "todoapp:dev",
+                "target": "base",
+                "dockerfile": "${workspaceFolder}/TodoWebapp/Dockerfile",
+                "context": "${workspaceFolder}",
+                "pull": true
+            },
+            "netCore": {
+                "appProject": "${workspaceFolder}/TodoWebapp/TodoWebapp.csproj"
+            }
+        },
+        {
+            "type": "docker-build",
+            "label": "docker-build: release",
+            "dependsOn": [
+                "build"
+            ],
+            "dockerBuild": {
+                "tag": "todoapp:latest",
+                "dockerfile": "${workspaceFolder}/TodoWebapp/Dockerfile",
+                "context": "${workspaceFolder}",
+                "pull": true
+            },
+            "netCore": {
+                "appProject": "${workspaceFolder}/TodoWebapp/TodoWebapp.csproj"
+            }
+        },
+        {
+            "type": "docker-run",
+            "label": "docker-run: debug",
+            "dependsOn": [
+                "docker-build: debug"
+            ],
+            "dockerRun": {},
+            "netCore": {
+                "appProject": "${workspaceFolder}/TodoWebapp/TodoWebapp.csproj",
+                "enableDebugging": true,
+                "configureSsl": false
+            }
+        },
+        {
+            "type": "docker-run",
+            "label": "docker-run: release",
+            "dependsOn": [
+                "docker-build: release"
+            ],
+            "dockerRun": {},
+            "netCore": {
+                "appProject": "${workspaceFolder}/TodoWebapp/TodoWebapp.csproj"
+            }
         }
     ]
 }
