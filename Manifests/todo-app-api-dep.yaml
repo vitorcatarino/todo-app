@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: todo-api-dep
+  namespace: todo-app-ns
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: todo-app
+      tier: back
+  template:
+    metadata:
+      labels:
+        app: todo-app
+        tier: back
+    spec:
+      containers:
+      - name: todo-api
+        image: tasb/todo-api:v1
+        ports:
+        - containerPort: 80
+        imagePullPolicy: Always
+        env:
+        - name: ConnectionStrings__TodosDb
+          valueFrom:
+            secretKeyRef:
+              name: todo-api-db-secret
+              key: connString

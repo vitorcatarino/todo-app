@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: todo-webapp-dep
+  namespace: todo-app-ns
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: todo-app
+      tier: front
+  template:
+    metadata:
+      labels:
+        app: todo-app
+        tier: front
+    spec:
+      containers:
+      - name: todo-webapp
+        image: tasb/todo-webapp:v1
+        ports:
+        - containerPort: 80
+        imagePullPolicy: Always
+        env:
+        - name: Services__TodoAPI
+          valueFrom:
+            configMapKeyRef:
+              name: todo-app-cfg
+              key: todo-api-server
+        

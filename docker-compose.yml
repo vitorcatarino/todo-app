@@ -4,7 +4,7 @@ version: '3.4'
 
 services:
   todowebapp:
-    image: todoapp/todowebapp:compose
+    image: tasb/todo-webapp:v1
     build:
       context: TodoWebapp/
       dockerfile: Dockerfile
@@ -12,7 +12,7 @@ services:
       - todoapi
 
   todoapi:
-    image: todoapp/todoapi:compose
+    image: tasb/todo-api:v1
     build:
       context: TodoAPI/
       dockerfile: Dockerfile
