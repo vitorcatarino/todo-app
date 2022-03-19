@@ -4,7 +4,6 @@ metadata:
   name: todo-app-pv-claim
   namespace: todo-app-ns
 spec:
-  storageClassName: local-storage
   accessModes:
     - ReadWriteOnce
   resources:
