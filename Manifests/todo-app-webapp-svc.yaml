@@ -5,7 +5,7 @@ metadata:
   namespace: todo-app-ns
 spec:
   ports:
-    - port: 80
+    - port: 8080
       targetPort: 80
       name: web
   selector:
