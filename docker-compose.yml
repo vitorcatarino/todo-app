@@ -6,7 +6,7 @@ services:
   todowebapp:
     image: tasb/todo-webapp:v1
     build:
-      context: TodoWebapp/
+      context: src/TodoWebapp/
       dockerfile: Dockerfile
     depends_on:
       - todoapi
@@ -14,11 +14,11 @@ services:
   todoapi:
     image: tasb/todo-api:v1
     build:
-      context: TodoAPI/
+      context: src/TodoAPI/
       dockerfile: Dockerfile
     depends_on:
       - tododb
 
   tododb:
-    image: mcr.microsoft.com/mssql/server:2017-latest
+    image: postgres:14.2-alpine
 

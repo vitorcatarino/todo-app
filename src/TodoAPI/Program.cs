@@ -1,3 +1,4 @@
+
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging.Console;
 using TodoAPI.Models;
@@ -22,7 +23,7 @@ builder.Services.AddCors(options =>
             .AllowAnyHeader());
     });
 
-builder.Services.AddDbContext<TodoDbContext>(opt => opt.UseSqlServer(connectionString));
+builder.Services.AddDbContext<TodoDbContext>(opt => opt.UseNpgsql(connectionString));
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
@@ -42,7 +43,10 @@ app.UseCors("CorsPolicy");
 
 using (var context = app.Services.CreateScope().ServiceProvider.GetRequiredService<TodoDbContext>())
 {
-    context.Database.Migrate();
+    if (context.Database.IsNpgsql())
+    {
+        context.Database.Migrate();
+    }
 }
 
 app.MapFallback(() => Results.Redirect("/swagger"));

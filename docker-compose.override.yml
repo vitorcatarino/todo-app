@@ -13,7 +13,7 @@ services:
   todoapi:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ConnectionStrings__TodosDb=Server=tododb,1433;Initial Catalog=echo-log;User ID=SA;Password=P@ssw0rd;
+      - ConnectionStrings__TodosDb=User ID=dbuser;Password=P@ssw0rd;Server=tododb;Port=5432;Database=TodoDb;Integrated Security=true;Pooling=true;
     volumes:
       - ~/.vsdbg:/remote_debugger:rw
     deploy:
@@ -22,6 +22,8 @@ services:
 
   tododb:
     environment:
-      - SA_PASSWORD=P@ssw0rd
-      - ACCEPT_EULA=Y
+      - POSTGRES_USER=dbuser
+      - POSTGRES_PASSWORD=P@ssw0rd
+    volumes:
+      - ./tmp:/var/lib/postgresql/data:rw
 
